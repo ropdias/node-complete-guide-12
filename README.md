@@ -4,10 +4,10 @@ Examples from the **"Section 16: Sending Emails"** of the course **"NodeJS - The
 
 Section 16 covered:
 
-- [ ] How Does Sending Emails Work?
-- [ ] Using SendGrid
-- [ ] Using Nodemailer to Send an Email
-- [ ] Potential Limitation for Large Scale Apps
+- [x] How Does Sending Emails Work?
+- [x] Using SendGrid
+- [x] Using Nodemailer to Send an Email
+- [x] Potential Limitation for Large Scale Apps
 
 
 
