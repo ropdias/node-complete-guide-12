@@ -1,5 +1,6 @@
 const path = require("path");
 
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -11,11 +12,9 @@ const flash = require('connect-flash');
 const errorControler = require("./controllers/error");
 const User = require("./models/user");
 
-const MONGODB_URI = "YOUR_MONGODB_URI_HERE";
-
 const app = express();
 const store = new MongoDBStore({
-  uri: MONGODB_URI, // We could use a different database but for this example we are fine using the same one
+  uri: process.env.MONGODB_URI, // We could use a different database but for this example we are fine using the same one
   collection: "sessions", // You define here the collections you will use to store the sessions, we can use any name here
   // expires: ... // We could add a expires attribute to set when it should expire and mongodb will clean automatically
 });
@@ -38,7 +37,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //'cookie' you can configure a cookie where you pass an object with properties like "maxAge" or "expires" or you can go with the default settings.
 app.use(
   session({
-    secret: "my secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: store, // This attribute sets where we want to store the sessions
@@ -75,7 +74,7 @@ app.use(authRoutes);
 app.use(errorControler.get404);
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(process.env.MONGODB_URI)
   .then((result) => {
     app.listen(3000);
   })

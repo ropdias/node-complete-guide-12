@@ -1,17 +1,16 @@
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
-const sendgridTransport = require("nodemailer-sendgrid-transport");
 
 const User = require("../models/user");
 
-const transporter = nodemailer.createTransport(
-  sendgridTransport({
-    auth: {
-      api_key:
-        "YOUR_API_KEY_HERE",
-    },
-  })
-);
+const transporter = nodemailer.createTransport({
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS,
+  },
+});
 
 exports.getLogin = (req, res, next) => {
   let message = req.flash("error"); // What I stored in 'error' will be retrivied here, and after we get it, it will be removed from the session
@@ -117,7 +116,7 @@ exports.postSignup = (req, res, next) => {
           res.redirect("/login");
           return transporter.sendMail({
             to: email,
-            from: "email@email.com",
+            from: process.env.MAILTRAP_FROM,
             subject: "Signup succeeded!",
             html: "<h1>You successfully signed up!</h1>",
           });
